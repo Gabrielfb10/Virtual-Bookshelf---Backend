@@ -1,7 +1,6 @@
 package com.acirio.virtual_bookshelf.model;
 
 import com.acirio.virtual_bookshelf.model.enums.CategoryBookEnum;
-import com.acirio.virtual_bookshelf.model.enums.StatusBookEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
