@@ -25,6 +25,7 @@ public class UserRegisterRequestDto {
     @NotBlank
     private String password;
 
+    //Valor padrao é definido no mapper
     private UserRoleEnum role;
 
 }
