@@ -18,8 +18,13 @@ public class UserService {
     @Autowired 
     private UserMapper userMapper;
 
-    public UserResponseDto getLogedUser(Long id) {
+    public UserResponseDto getLogedUser(UserModel userLoged) {
+        return userMapper.toResponse(userLoged);
+    }
+
+    public void deleteLogedUsr(Long id) {
         UserModel user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
-        return userMapper.toResponse(user);
+        userRepository.delete(user);
+        return;
     }
 }
