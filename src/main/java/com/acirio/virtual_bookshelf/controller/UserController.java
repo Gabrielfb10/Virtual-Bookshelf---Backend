@@ -29,6 +29,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userData);
     }
 
+    //TODO: Terminar a implementação do PUT
     //PUT/users/me;
     @PutMapping("/me")
     public ResponseEntity<UserResponseDto> updateLogedUser(@Valid @RequestBody UserResponseDto userResponseDto, @AuthenticationPrincipal UserModel userModel) {

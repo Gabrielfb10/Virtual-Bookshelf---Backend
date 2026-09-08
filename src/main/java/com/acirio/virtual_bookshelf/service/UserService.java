@@ -2,6 +2,7 @@ package com.acirio.virtual_bookshelf.service;
 
 import com.acirio.virtual_bookshelf.repository.UserRepository;
 import com.nimbusds.jose.util.Resource;
+import com.acirio.virtual_bookshelf.dto.UserRequestDto;
 import com.acirio.virtual_bookshelf.dto.UserResponseDto;
 import com.acirio.virtual_bookshelf.exception.ResourceNotFoundException;
 import com.acirio.virtual_bookshelf.mapper.UserMapper;
@@ -20,6 +21,11 @@ public class UserService {
 
     public UserResponseDto getLogedUser(UserModel userLoged) {
         return userMapper.toResponse(userLoged);
+    }
+
+    public UserResponseDto updateLogedUser(UserRequestDto userRequestDto, UserModel userLoged) {
+        UserModel user = userRepository.findById(userLoged.getId()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+        
     }
 
     public void deleteLogedUsr(Long id) {
