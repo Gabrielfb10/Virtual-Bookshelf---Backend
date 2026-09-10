@@ -39,11 +39,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
     }
 
+    @PutMapping("/me/change-password")
+    public ResponseEntity<String> changePasswordLogedUser(@RequestBody ) {
+
+    }
+
     @DeleteMapping("/me")
     public ResponseEntity<String> deleteLogedUser(@AuthenticationPrincipal UserModel userModel) {
         userService.deleteLogedUser(userModel.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado com sucesso.");
     }
+
 
     //==========================
     //======ROTAS DO ADMIN======
