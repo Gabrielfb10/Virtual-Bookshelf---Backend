@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class UserRequestDto {
 
     @NotBlank 
-    private String username;
+    private String nickname;
 
     @NotBlank
     private String name;
@@ -22,6 +22,4 @@ public class UserRequestDto {
     @Email
     private String email;
 
-    @NotBlank
-    private UserRoleEnum role;
 }

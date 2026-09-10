@@ -36,14 +36,14 @@ public class AuthService {
 
     public UserModel register(UserRegisterRequestDto userRegisterRequestDto) {
         UserModel userEmail = userRepository.findByEmail(userRegisterRequestDto.getEmail()).orElse(null);
-        UserModel userUsername = userRepository.findByUsername(userRegisterRequestDto.getUsername()).orElse(null);
+        UserModel userNickname = userRepository.findByNickname(userRegisterRequestDto.getNickname()).orElse(null);
 
         if(userEmail != null) {
             throw new ConflictException("Já existe um usuário com esse email.");
         }
 
-        if(userUsername != null) {
-            throw new ConflictException("Já existe um usuário com esse username.");
+        if(userNickname != null) {
+            throw new ConflictException("Já existe um usuário com esse nickname.");
         }
 
         UserModel userRegister = userMapper.toEntity(userRegisterRequestDto);

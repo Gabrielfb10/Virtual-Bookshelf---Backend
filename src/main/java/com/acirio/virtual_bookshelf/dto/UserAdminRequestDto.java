@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserRegisterRequestDto {
+public class UserAdminRequestDto {
 
     @NotBlank
     private String nickname;
@@ -23,9 +23,5 @@ public class UserRegisterRequestDto {
     private String email;
 
     @NotBlank
-    private String password;
-
-    //Valor padrao é definido no mapper
     private UserRoleEnum role;
-
 }

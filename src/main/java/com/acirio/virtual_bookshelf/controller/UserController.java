@@ -1,19 +1,19 @@
 package com.acirio.virtual_bookshelf.controller;
 
+import com.acirio.virtual_bookshelf.dto.UserAdminRequestDto;
+import com.acirio.virtual_bookshelf.dto.UserAdminResponseDto;
+import com.acirio.virtual_bookshelf.dto.UserRequestDto;
 import com.acirio.virtual_bookshelf.model.UserModel;
 import com.acirio.virtual_bookshelf.dto.UserResponseDto;
 import com.acirio.virtual_bookshelf.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 
 @RestController
@@ -23,23 +23,53 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //=========================
+    //====ROTAS DO USUARIOS====
+    //=========================
+
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> getLogedUser(@AuthenticationPrincipal UserModel userModel) {
         UserResponseDto userData = userService.getLogedUser(userModel);
         return ResponseEntity.status(HttpStatus.OK).body(userData);
     }
 
-    //TODO: Terminar a implementação do PUT
-    //PUT/users/me;
     @PutMapping("/me")
-    public ResponseEntity<UserResponseDto> updateLogedUser(@Valid @RequestBody UserResponseDto userResponseDto, @AuthenticationPrincipal UserModel userModel) {
-        UserResponseDto userResponseDto = userService.updateLogedUser()
+    public ResponseEntity<UserResponseDto> updateLogedUser(@Valid @RequestBody UserRequestDto userRequestDto, @AuthenticationPrincipal UserModel userModel) {
+        UserResponseDto userResponseDto = userService.updateLogedUser(userRequestDto, userModel);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
     }
-    
-    //DELETE/users/me (pode deletar apenas a si mesmo)
+
     @DeleteMapping("/me")
     public ResponseEntity<String> deleteLogedUser(@AuthenticationPrincipal UserModel userModel) {
-        userService.deleteLogedUsr(userModel.getId());
+        userService.deleteLogedUser(userModel.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado com sucesso.");
+    }
+
+    //==========================
+    //======ROTAS DO ADMIN======
+    //==========================
+
+    @GetMapping("/")
+    public ResponseEntity<List<UserAdminResponseDto>> getAllUsers() {
+        List<UserAdminResponseDto> users = userService.getAllUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserAdminResponseDto> getUserById(@PathVariable Long id) {
+        UserAdminResponseDto userResponse = userService.getUserById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserAdminResponseDto> updateUser(@Valid @RequestBody UserAdminRequestDto userAdminRequestDto, @PathVariable Long id) {
+        UserAdminResponseDto userResponse = userService.updateUser(userAdminRequestDto, id);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteLogedUser(@PathVariable Long id) {
+        userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado com sucesso.");
     }
 }

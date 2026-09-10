@@ -26,19 +26,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");//Pode extrair qualquer header, nesse caso extrai o authorization
+        String authorizationHeader = request.getHeader("Authorization");
 
-        if (!StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7); //Extrai a string depois do indice 7, nesse caso, extrai o tokne sem o 'Bearer '.
-
-            if (tokenProvider.isTokenValid(token)) {
-                String username = tokenProvider.getUsername(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username); //Implementação deve ser feita em um service que extenda 'UserDetailsSerice'
-                //Pede o usuario, senha (nesse caso como ja foi checado nao precisa) e roles.
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }
+        // Se não há token, passa para o próximo filtro sem autenticar
+        if (!StringUtils.hasText(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
-        filterChain.doFilter(request, response);//Passa para o proximo filtro que nao precisa de um token (login, cadastros, etc)
+
+        // Só chega aqui se há um token Bearer presente
+        String token = authorizationHeader.substring(7);
+
+        if (tokenProvider.isTokenValid(token)) {
+            String username = tokenProvider.getUsername(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
+
+        filterChain.doFilter(request, response);
     }
 }
