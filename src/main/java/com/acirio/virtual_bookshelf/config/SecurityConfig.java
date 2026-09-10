@@ -55,7 +55,7 @@ public class SecurityConfig {
 
             // Libera o acesso às URLs de autenticação (login e registro) sem precisar de login, mas exige login para o resto
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/h2-console/**", "/auth/**").permitAll()
+                .requestMatchers("/h2-console/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/auth/**").permitAll()
                 .requestMatchers("/users/me","/users/me/**").authenticated()
                 .requestMatchers("/users","/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
