@@ -1,12 +1,8 @@
 package com.acirio.virtual_bookshelf.service;
 
-import com.acirio.virtual_bookshelf.dto.UserAdminRequestDto;
-import com.acirio.virtual_bookshelf.dto.UserAdminResponseDto;
+import com.acirio.virtual_bookshelf.dto.*;
 import com.acirio.virtual_bookshelf.exception.ConflictException;
 import com.acirio.virtual_bookshelf.repository.UserRepository;
-import com.acirio.virtual_bookshelf.dto.UserRequestDto;
-import com.acirio.virtual_bookshelf.dto.UserResponseDto;
-import com.acirio.virtual_bookshelf.dto.ChangePasswordDto;
 import com.acirio.virtual_bookshelf.exception.ResourceNotFoundException;
 import com.acirio.virtual_bookshelf.mapper.UserMapper;
 import com.acirio.virtual_bookshelf.model.UserModel;
@@ -59,7 +55,7 @@ public class UserService {
             throw new BadCredentialsException("Senha errada.");
         }
 
-        user.setPassword(passwordEncoder.encode(changePasswordDto.getCurrentPassword()));
+        user.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
         userRepository.save(user);
     }
 
@@ -103,10 +99,10 @@ public class UserService {
         return userMapper.toAdminResponse(userSaved);
     }
 
-    public void changePasswordUser(Long id, ChangePasswordDto changePasswordDto) {
+    public void changePasswordUser(Long id, AdminChangePasswordDto adminChangePasswordDto) {
         UserModel user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
         
-        user.setPassword(passwordEncoder.encode(changePasswordDto.getCurrentPassword()));
+        user.setPassword(passwordEncoder.encode(adminChangePasswordDto.getNewPassword()));
         userRepository.save(user);
     }
 

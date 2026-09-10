@@ -1,10 +1,7 @@
 package com.acirio.virtual_bookshelf.controller;
 
-import com.acirio.virtual_bookshelf.dto.UserAdminRequestDto;
-import com.acirio.virtual_bookshelf.dto.UserAdminResponseDto;
-import com.acirio.virtual_bookshelf.dto.UserRequestDto;
+import com.acirio.virtual_bookshelf.dto.*;
 import com.acirio.virtual_bookshelf.model.UserModel;
-import com.acirio.virtual_bookshelf.dto.UserResponseDto;
 import com.acirio.virtual_bookshelf.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,8 +37,9 @@ public class UserController {
     }
 
     @PutMapping("/me/change-password")
-    public ResponseEntity<String> changePasswordLogedUser(@RequestBody ) {
-
+    public ResponseEntity<String> changePasswordLogedUser(@RequestBody ChangePasswordDto changePasswordDto, @AuthenticationPrincipal UserModel userModel) {
+        userService.changePasswordLogedUser(changePasswordDto, userModel);
+        return ResponseEntity.status(HttpStatus.OK).body("Senha alterada com sucesso.");
     }
 
     @DeleteMapping("/me")
@@ -71,6 +69,12 @@ public class UserController {
     public ResponseEntity<UserAdminResponseDto> updateUser(@Valid @RequestBody UserAdminRequestDto userAdminRequestDto, @PathVariable Long id) {
         UserAdminResponseDto userResponse = userService.updateUser(userAdminRequestDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+    }
+
+    @PutMapping("/{id}/change-password")
+    public ResponseEntity<String> changePasswordLogedUser(@PathVariable Long id, @RequestBody AdminChangePasswordDto adminChangePasswordDto) {
+        userService.changePasswordUser(id, adminChangePasswordDto);
+        return ResponseEntity.status(HttpStatus.OK).body("Senha alterada com sucesso.");
     }
 
     @DeleteMapping("/{id}")

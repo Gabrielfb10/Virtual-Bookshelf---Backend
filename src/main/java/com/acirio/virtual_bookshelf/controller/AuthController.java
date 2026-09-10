@@ -31,4 +31,10 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
+    @PostMapping("/admin")
+    public String tempCriarAdmin() {
+        authService.criarAdmin();
+        return "admin criado";
+    }
+
 }

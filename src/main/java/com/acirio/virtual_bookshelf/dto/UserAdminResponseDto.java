@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserAdminResponseDto {
 
+    private Long id;
+
     private String nickname;
 
     private String name;

@@ -7,6 +7,7 @@ import com.acirio.virtual_bookshelf.exception.ConflictException;
 import com.acirio.virtual_bookshelf.exception.UnauthorizedException;
 import com.acirio.virtual_bookshelf.mapper.UserMapper;
 import com.acirio.virtual_bookshelf.model.UserModel;
+import com.acirio.virtual_bookshelf.model.enums.UserRoleEnum;
 import com.acirio.virtual_bookshelf.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,16 @@ public class AuthService {
 
     @Autowired
     TokenProvider tokenProvider;
+
+    public void criarAdmin() {
+        UserModel user = new UserModel();
+        user.setNickname("admin");
+        user.setName("Garibolas");
+        user.setEmail("admin@admin.com");
+        user.setPassword(passwordEncoder.encode("admin"));
+        user.setRole(UserRoleEnum.ROLE_ADMIN);
+        userRepository.save(user);
+    }
 
     public UserModel register(UserRegisterRequestDto userRegisterRequestDto) {
         UserModel userEmail = userRepository.findByEmail(userRegisterRequestDto.getEmail()).orElse(null);
