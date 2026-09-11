@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/users")
 @Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários e perfil")
@@ -48,11 +47,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("Senha alterada com sucesso.");
     }
 
-    @Operation(summary = "Deletar conta do usuário autenticado", description = "Remove permanentemente a conta do usuário logado.")
+    @Operation(summary = "Deletar a própria conta", description = "Exclui permanentemente a conta do usuário autenticado.")
     @DeleteMapping("/me")
-    public ResponseEntity<String> deleteLogedUser(@AuthenticationPrincipal UserModel userModel) {
+    public ResponseEntity<Void> deleteLogedUser(@AuthenticationPrincipal UserModel userModel) {
         userService.deleteLogedUser(userModel.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado com sucesso.");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
@@ -60,10 +59,10 @@ public class UserController {
     //======ROTAS DO ADMIN======
     //==========================
 
-    @Operation(summary = "Listar todos os usuários", description = "Retorna a lista completa de usuários cadastrados. Requer permissão de administrador.")
+    @Operation(summary = "Listar todos os usuários", description = "Retorna a lista completa de usuários cadastrados com suporte a filtros e paginação. Requer permissão de administrador.")
     @GetMapping("/")
-    public ResponseEntity<List<UserAdminResponseDto>> getAllUsers() {
-        List<UserAdminResponseDto> users = userService.getAllUsers();
+    public ResponseEntity<org.springframework.data.domain.Page<UserAdminResponseDto>> getAllUsers(@org.springdoc.core.annotations.ParameterObject UserFilterDto filter, @org.springdoc.core.annotations.ParameterObject org.springframework.data.domain.Pageable pageable) {
+        org.springframework.data.domain.Page<UserAdminResponseDto> users = userService.getAllUsers(filter, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
@@ -88,10 +87,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("Senha alterada com sucesso.");
     }
 
-    @Operation(summary = "Deletar usuário por ID", description = "Remove permanentemente um usuário específico pelo ID. Requer permissão de administrador.")
+    @Operation(summary = "Deletar usuário", description = "Remove um usuário do sistema. Requer permissão de administrador.")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLogedUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado com sucesso.");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

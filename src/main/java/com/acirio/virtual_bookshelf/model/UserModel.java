@@ -37,6 +37,12 @@ public class UserModel implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
+    private Integer level = 1;
+
+    private Integer experience = 0;
+
+    private Integer pagesRead = 0;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserBookModel> books = new ArrayList<>();
 

@@ -56,13 +56,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorHandlerResponse> handleUnauthorizedException(UnauthorizedException ex, HttpServletRequest request) {
         ErrorHandlerResponse response = ErrorHandlerResponse.builder()
-                .status(HttpStatus.FORBIDDEN.value())
-                .error("Permissão negada.")
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .error("Não autorizado.")
                 .message(ex.getMessage())
                 .path(request.getRequestURI())
                 .timestamp(Instant.now())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 }

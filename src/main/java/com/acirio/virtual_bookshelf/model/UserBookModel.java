@@ -31,15 +31,15 @@ public class UserBookModel {
     @Enumerated(EnumType.STRING)
     private StatusBookEnum status;
 
-    private int currentPage;
+    private Integer currentPage;
 
-    private int percentageRead;
+    private Integer percentageRead;
 
-    private float note;
+    private Float note;
 
     private LocalDateTime addedDate;
 
-    private LocalDateTime readingStartDay;
+    private LocalDateTime readingStartDate;
 
     private LocalDateTime readingEndDate;
 }

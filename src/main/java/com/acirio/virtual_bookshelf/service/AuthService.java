@@ -35,16 +35,6 @@ public class AuthService {
     @Autowired
     TokenProvider tokenProvider;
 
-    public void criarAdmin() {
-        UserModel user = new UserModel();
-        user.setNickname("admin");
-        user.setName("Garibolas");
-        user.setEmail("admin@admin.com");
-        user.setPassword(passwordEncoder.encode("admin"));
-        user.setRole(UserRoleEnum.ROLE_ADMIN);
-        userRepository.save(user);
-    }
-
     public UserModel register(UserRegisterRequestDto userRegisterRequestDto) {
         UserModel userEmail = userRepository.findByEmail(userRegisterRequestDto.getEmail()).orElse(null);
         UserModel userNickname = userRepository.findByNickname(userRegisterRequestDto.getNickname()).orElse(null);
@@ -58,6 +48,9 @@ public class AuthService {
         }
 
         UserModel userRegister = userMapper.toEntity(userRegisterRequestDto);
+
+        // Força a role como USER para impedir escalação de privilégio
+        userRegister.setRole(UserRoleEnum.ROLE_USER);
 
         // Criptografa a senha
         userRegister.setPassword(passwordEncoder.encode(userRegister.getPassword()));

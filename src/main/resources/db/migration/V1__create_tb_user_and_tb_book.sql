@@ -12,6 +12,6 @@ CREATE TABLE tb_book(
     name VARCHAR(255),
     author VARCHAR(255),
     category VARCHAR(255),
-    numberOfPages BIGINT,
+    number_of_pages INTEGER,
     cover VARCHAR(255)
 );

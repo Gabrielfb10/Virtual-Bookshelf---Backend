@@ -25,4 +25,13 @@ public class UserAdminResponseDto {
 
     @Schema(description = "Papel do usuário no sistema", example = "ADMIN")
     private UserRoleEnum role;
+
+    @Schema(description = "Nível de leitura atual do usuário", example = "3")
+    private int level;
+
+    @Schema(description = "Experiência de leitura atual no nível", example = "12")
+    private int experience;
+
+    @Schema(description = "Quantidade total de páginas lidas pelo usuário", example = "450")
+    private int pagesRead;
 }

@@ -36,11 +36,5 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
-    @Operation(summary = "Criar usuário admin temporário", description = "Endpoint temporário para criação de um usuário com permissão de administrador.")
-    @PostMapping("/admin")
-    public String tempCriarAdmin() {
-        authService.criarAdmin();
-        return "admin criado";
-    }
 
 }

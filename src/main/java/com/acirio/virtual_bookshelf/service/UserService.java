@@ -7,6 +7,8 @@ import com.acirio.virtual_bookshelf.exception.ResourceNotFoundException;
 import com.acirio.virtual_bookshelf.mapper.UserMapper;
 import com.acirio.virtual_bookshelf.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,14 +67,16 @@ public class UserService {
         return;
     }
 
-    public List<UserAdminResponseDto> getAllUsers() {
-        List<UserModel> users = userRepository.findAll();
+    public Page<UserAdminResponseDto> getAllUsers(UserFilterDto filter, Pageable pageable) {
+        UserModel probe = userMapper.toEntity(filter);
+        org.springframework.data.domain.Example<UserModel> example = org.springframework.data.domain.Example.of(probe, org.springframework.data.domain.ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withStringMatcher(org.springframework.data.domain.ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnorePaths("level", "experience", "pagesRead")
+                .withIgnoreNullValues());
 
-        List<UserAdminResponseDto> usersResponse = users.stream()
-                .map(userMapper::toAdminResponse)
-                .toList();
-
-        return usersResponse;
+        org.springframework.data.domain.Page<UserModel> usersPage = userRepository.findAll(example, pageable);
+        return usersPage.map(userMapper::toAdminResponse);
     }
 
     public UserAdminResponseDto getUserById(Long id) {
