@@ -6,8 +6,9 @@ CREATE TABLE tb_user_book (
 
     status VARCHAR(50),
     current_page BIGINT DEFAULT 0,
-    added_at TIMESTAMP,
-    completed_at TIMESTAMP,
+    added_date TIMESTAMP,
+    reading_start_date TIMESTAMP,
+    reading_end_date TIMESTAMP,
 
     CONSTRAINT fk_user_book_user FOREIGN KEY (user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
     CONSTRAINT fk_user_book_book FOREIGN KEY (book_id) REFERENCES tb_book(id) ON DELETE CASCADE,
