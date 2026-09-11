@@ -96,9 +96,16 @@ public class ShelfService {
 
         // Se marcou como completo e nao tinha lido todas as paginas, ganha XP pelo resto
         if (status.getStatus() == StatusBookEnum.COMPLETED && userBookModel.getCurrentPage() < userBookModel.getBook().getNumberOfPages()) {
+
+            // Calula o delta de paginas lidas
             int pagesRead = userBookModel.getBook().getNumberOfPages() - userBookModel.getCurrentPage();
+
+            // Atualiza a pagina atual para a ultima
             userBookModel.setCurrentPage(userBookModel.getBook().getNumberOfPages());
+
+            // Atualiza a porcentagem de progresso para 100
             userBookModel.setPercentageRead(100);
+
             addExperienceAndSave(userModel, pagesRead);
         }
 
@@ -156,6 +163,11 @@ public class ShelfService {
 
         if(!userBookModel.getUser().getId().equals(userModel.getId())) {
             throw new UnauthorizedException("Esse livro não está na sua estante.");
+        }
+
+        // Caso a pessoa tente avaliar um livro que ainda quer ler, atualia o status para lendo (pelo menos lendo tem que estar para avaliar)
+        if(userBookModel.getStatus() == StatusBookEnum.WANT_TO_READ) {
+            userBookModel.setStatus(StatusBookEnum.READING);
         }
 
         userBookModel.setNote(note.getNote());
