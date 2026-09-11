@@ -5,7 +5,9 @@ CREATE TABLE tb_user_book (
     book_id BIGINT,
 
     status VARCHAR(50),
-    current_page BIGINT DEFAULT 0,
+    current_page INTEGER DEFAULT 0,
+    percentage_read INTEGER DEFAULT 0,
+    note FLOAT,
     added_date TIMESTAMP,
     reading_start_date TIMESTAMP,
     reading_end_date TIMESTAMP,

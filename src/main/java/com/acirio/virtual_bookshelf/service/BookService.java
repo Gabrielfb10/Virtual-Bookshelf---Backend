@@ -55,13 +55,15 @@ public class BookService {
         return bookMapper.toResponse(bookSaved);
     }
 
-    public List<BookResponseDto> getBooks() {
-        List<BookModel> books = bookRepository.findAll();
-        List<BookResponseDto> booksResponse = books.stream()
-                .map(bookMapper::toResponse)
-                .toList();
+    public org.springframework.data.domain.Page<BookResponseDto> getBooks(com.acirio.virtual_bookshelf.dto.BookFilter filter, org.springframework.data.domain.Pageable pageable) {
+        BookModel probe = bookMapper.toEntity(filter);
+        org.springframework.data.domain.Example<BookModel> example = org.springframework.data.domain.Example.of(probe, org.springframework.data.domain.ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withStringMatcher(org.springframework.data.domain.ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreNullValues());
 
-        return booksResponse;
+        org.springframework.data.domain.Page<BookModel> booksPage = bookRepository.findAll(example, pageable);
+        return booksPage.map(bookMapper::toResponse);
     }
 
     public BookResponseDto getBookById(Long id) {

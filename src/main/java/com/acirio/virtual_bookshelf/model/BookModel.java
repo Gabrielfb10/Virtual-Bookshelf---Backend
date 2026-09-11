@@ -29,7 +29,7 @@ public class BookModel {
 
     private String genre;
 
-    private Long numberOfPages;
+    private int numberOfPages;
 
     private String cover; //Endereço da imagem da capa do livro
 

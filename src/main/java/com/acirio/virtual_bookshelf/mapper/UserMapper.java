@@ -13,6 +13,8 @@ public interface UserMapper {
     @Mapping(target = "role", defaultValue = "ROLE_USER")
     UserModel toEntity(UserRegisterRequestDto userRegisterRequestDto);
 
+    UserModel toEntity(com.acirio.virtual_bookshelf.dto.UserFilterDto filter);
+
     UserResponseDto toResponse(UserModel userModel);
 
     UserAdminResponseDto toAdminResponse(UserModel userModel);

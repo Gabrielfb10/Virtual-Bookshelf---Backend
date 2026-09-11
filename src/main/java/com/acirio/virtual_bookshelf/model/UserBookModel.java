@@ -39,7 +39,7 @@ public class UserBookModel {
 
     private LocalDateTime addedDate;
 
-    private LocalDateTime readingStartDay;
+    private LocalDateTime readingStartDate;
 
     private LocalDateTime readingEndDate;
 }
