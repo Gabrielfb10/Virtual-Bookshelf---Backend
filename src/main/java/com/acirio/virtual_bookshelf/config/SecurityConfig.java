@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -56,6 +57,13 @@ public class SecurityConfig {
             // Libera o acesso às URLs de autenticação (login e registro) sem precisar de login, mas exige login para o resto
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/auth/**").permitAll()
+
+                // Livros — GET para qualquer autenticado, escrita apenas para ADMIN
+                .requestMatchers(HttpMethod.GET, "/books", "/books/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/books/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/books/**").hasRole("ADMIN")
+
                 .requestMatchers("/users/me","/users/me/**").authenticated()
                 .requestMatchers("/users","/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

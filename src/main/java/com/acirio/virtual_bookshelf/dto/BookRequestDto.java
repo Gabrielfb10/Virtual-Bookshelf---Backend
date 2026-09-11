@@ -1,32 +1,28 @@
-package com.acirio.virtual_bookshelf.model;
+package com.acirio.virtual_bookshelf.dto;
 
 import com.acirio.virtual_bookshelf.model.enums.CategoryBookEnum;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "tb_book")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BookModel {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class BookRequestDto {
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String author;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private CategoryBookEnum category;
 
+    @NotBlank
     private String genre;
 
+    @NotNull
     private Long numberOfPages;
-
-    private String cover; //Endereço da imagem da capa do livro
 }
