@@ -21,4 +21,16 @@ public class UserResponseDto {
 
     @Schema(description = "E-mail do usuário", example = "gabriel@email.com")
     private String email;
+
+    @Schema(description = "Nível de leitura atual do usuário", example = "3")
+    private int level;
+
+    @Schema(description = "Experiência de leitura atual no nível", example = "12")
+    private int experience;
+
+    @Schema(description = "Quantidade total de páginas lidas pelo usuário", example = "450")
+    private int pagesRead;
+    
+    @Schema(description = "Papel do usuário no sistema", example = "ROLE_USER")
+    private String role;
 }

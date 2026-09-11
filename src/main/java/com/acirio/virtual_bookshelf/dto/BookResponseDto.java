@@ -25,8 +25,11 @@ public class BookResponseDto {
     @Schema(description = "Gênero do livro", example = "Fantasia")
     private String genre;
 
+    @Schema(description = "Sinopse ou descrição do livro", example = "Uma aventura épica...")
+    private String description;
+
     @Schema(description = "Número total de páginas do livro", example = "1200")
-    private Long numberOfPages;
+    private Integer numberOfPages;
 
     @Schema(description = "Caminho da imagem de capa do livro", example = "/covers/imagem.jpg")
     private String cover;

@@ -18,8 +18,8 @@ public class ShelfResponseDto {
     @Schema(description = "ID do usuário dono da estante", example = "1")
     private Long user;
 
-    @Schema(description = "ID do livro na estante", example = "5")
-    private Long book;
+    @Schema(description = "Livro associado na estante")
+    private BookResponseDto book;
 
     @Schema(description = "Status de leitura do livro na estante", example = "READING")
     private String status;

@@ -33,8 +33,8 @@ public class ShelfController {
 
     @Operation(summary = "Listar estante", description = "Retorna os livros na estante do usuário, com suporte a paginação e filtros (ex: status).")
     @GetMapping("/")
-    public ResponseEntity<Page<ShelfSummaryDto>> getBooks(@ParameterObject BookFilter bookFilter, StatusBookEnum status, @ParameterObject Pageable pageable, @AuthenticationPrincipal UserModel userModel) {
-        Page<ShelfSummaryDto> pageResult = shelfService.getBooks(bookFilter, pageable, status, userModel);
+    public ResponseEntity<Page<ShelfResponseDto>> getBooks(@ParameterObject BookFilter bookFilter, StatusBookEnum status, @ParameterObject Pageable pageable, @AuthenticationPrincipal UserModel userModel) {
+        Page<ShelfResponseDto> pageResult = shelfService.getBooks(bookFilter, pageable, status, userModel);
         return ResponseEntity.status(HttpStatus.OK).body(pageResult);
     }
 

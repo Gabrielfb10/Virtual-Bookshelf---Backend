@@ -79,6 +79,7 @@ public class BookService {
         book.setAuthor(bookRequestDto.getAuthor());
         book.setCategory(bookRequestDto.getCategory());
         book.setGenre(bookRequestDto.getGenre());
+        book.setDescription(bookRequestDto.getDescription());
         book.setNumberOfPages(bookRequestDto.getNumberOfPages());
 
         BookModel bookSaved = bookRepository.save(book);

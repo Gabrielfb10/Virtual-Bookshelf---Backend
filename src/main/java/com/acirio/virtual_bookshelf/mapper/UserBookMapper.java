@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 
 import java.time.LocalDateTime;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {BookMapper.class})
 public interface UserBookMapper {
 
     @Mapping(target = "id", ignore = true)
@@ -25,11 +25,10 @@ public interface UserBookMapper {
     @Mapping(target = "readingEndDate", ignore = true)
     UserBookModel toEntity(BookModel book, UserModel user, LocalDateTime now);
 
-
-
     @Mapping(target = "user", source = "user.id")
-    @Mapping(target = "book", source = "book.id")
+    @Mapping(target = "book", source = "book")
     ShelfResponseDto toResponse(UserBookModel userBookModel);
+
     @Mapping(target = "cover", source = "userBook.book.cover")
     @Mapping(target = "name", source = "userBook.book.name")
     @Mapping(target = "author", source = "userBook.book.author")

@@ -15,7 +15,7 @@ import java.util.Date;
 public class TokenProvider {
 
     @Value("${jwt.expiration}")
-    private Long expírationTime;
+    private Long expirationTime;
 
     @Value("${jwt.secret}")
     private String key;
@@ -27,7 +27,7 @@ public class TokenProvider {
 
     private String buildToken(String username) {
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + expírationTime);
+        Date expiration = new Date(now.getTime() + expirationTime);
         //Contem as informações que o token tera
         return Jwts.builder()
                 .subject(username) //O subject é o identificador do usuario, poder ser username, email ou qualquer outra coisa, nesse caso, é o email

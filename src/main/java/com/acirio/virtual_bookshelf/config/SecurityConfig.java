@@ -1,8 +1,7 @@
 package com.acirio.virtual_bookshelf.config;
 
-import org.h2.server.web.JakartaWebServlet;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,21 +24,11 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    // Registro manual do H2 Console — necessário no Spring Boot 4.x,
-    // pois a autoconfiguration pode não ativar quando o datasource é configurado via env vars
-    @Bean
-    public ServletRegistrationBean<JakartaWebServlet> h2ConsoleServlet() {
-        ServletRegistrationBean<JakartaWebServlet> registration =
-                new ServletRegistrationBean<>(new JakartaWebServlet());
-        registration.addUrlMappings("/h2-console/*");
-        registration.addInitParameter("webAllowOthers", "false");
-        registration.setLoadOnStartup(1);
-        return registration;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors(org.springframework.security.config.Customizer.withDefaults())
             // Desabilita o salvamento do estado da sessão
             .csrf(csrf -> csrf.disable())
             // Faz com que o estado da sessão não seja guardado
@@ -56,11 +45,11 @@ public class SecurityConfig {
 
             // Libera o acesso às URLs de autenticação (login e registro) sem precisar de login, mas exige login para o resto
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/h2-console/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/auth/**").permitAll()
+                .requestMatchers("/h2-console/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/auth/**", "/covers/**").permitAll()
 
                 // Livros — GET para qualquer autenticado, escrita apenas para ADMIN
                 .requestMatchers(HttpMethod.GET, "/books", "/books/**").authenticated()
-                .requestMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/books", "/books/").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/books/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/books/**").hasRole("ADMIN")
 
@@ -70,10 +59,7 @@ public class SecurityConfig {
             )
 
             // Adiciona a nossa verificação para ser feita antes da padrao do spring
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
-            // Mantém o formulário de login para o restante da API
-            .formLogin(form -> form.permitAll());
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -84,7 +70,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }

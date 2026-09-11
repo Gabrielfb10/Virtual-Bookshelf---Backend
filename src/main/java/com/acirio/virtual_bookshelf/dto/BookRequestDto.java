@@ -29,6 +29,10 @@ public class BookRequestDto {
     @Schema(description = "Gênero do livro", example = "Fantasia")
     private String genre;
 
+    @NotBlank
+    @Schema(description = "Sinopse ou descrição do livro", example = "Uma aventura épica...")
+    private String description;
+
     @NotNull
     @Schema(description = "Número total de páginas do livro", example = "1200")
     private Integer numberOfPages;
