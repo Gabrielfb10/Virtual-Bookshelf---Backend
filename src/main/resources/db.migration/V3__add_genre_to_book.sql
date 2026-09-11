@@ -1,0 +1,1 @@
+ALTER TABLE tb_book ADD COLUMN genre VARCHAR(255);
