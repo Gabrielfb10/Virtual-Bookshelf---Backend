@@ -1,10 +1,28 @@
 # 📚 VirtualBookshelf
 
-O **VirtualBookshelf** é um sistema completo para gerenciamento de leitura e acompanhamento de progresso literário. Ele permite que usuários adicionem livros do catálogo às suas estantes pessoais, registrem páginas lidas, deixem notas sobre a leitura e ganhem experiência (XP) para evoluir de nível conforme leem, transformando o hábito da leitura em uma experiência interativa e gamificada.
+O **VirtualBookshelf** é um sistema para gerenciamento de leitura e acompanhamento de progresso literário desenvolvido para fins de aprendizado. Ele permite que usuários adicionem livros do catálogo às suas estantes pessoais, registrem páginas lidas, atribuam notas sobre a leitura e ganhem experiência (XP) para evoluir de nível conforme leem, transformando o hábito da leitura em uma experiência interativa e gamificada. 
 
 ## 🖼️ Demonstração Visual
+### Tela de Login
+<img width="1918" height="943" alt="Captura de tela 2026-09-11 212310" src="https://github.com/user-attachments/assets/043ac7fc-0c89-43de-95ca-befa6c3fad19" />
 
-*(Adicione aqui capturas de tela do sistema, como o Dashboard do usuário, a estante de livros, ou um GIF mostrando a atualização de progresso de um livro)*
+### Tela de Cadastro
+<img width="1918" height="944" alt="Captura de tela 2026-09-11 212338" src="https://github.com/user-attachments/assets/d511d5b4-d79e-4326-8fa6-b1b5c11c3dab" />
+
+### Tela do Catálogo de Livros e Estante do Usuário
+<img width="1280" height="627" alt="Cadastro de novo livro por admin" src="https://github.com/user-attachments/assets/2cfc1431-983b-45d3-a92b-69f16e86ab19" />
+
+### Tela de Adição de Livros ao Catálogo
+> Tela disponível apenas para o Usuário Administrador.
+<img width="1280" height="629" alt="Fluxo de adição de livro a estante e atualização de progresso e status" src="https://github.com/user-attachments/assets/fa345c35-c701-4d0b-b80a-356724a7777e" />
+
+### Tela de Gestão de Usuários
+> Tela disponível apenas para o Usuário Administrador.
+<img width="1918" height="942" alt="Captura de tela 2026-09-11 223322" src="https://github.com/user-attachments/assets/0d8bc7ae-f7f4-4097-a983-3f660354593b" />
+
+### Tela dos Dados do Usuário
+<img width="1918" height="943" alt="Captura de tela 2026-09-11 223347" src="https://github.com/user-attachments/assets/1e6aad34-76ec-4f7b-b2fa-9fefabccbe24" />
+
 
 ## ⚙️ Tecnologias Utilizadas
 
