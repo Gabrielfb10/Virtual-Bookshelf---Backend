@@ -49,7 +49,7 @@ public class AuthService {
 
         UserModel userRegister = userMapper.toEntity(userRegisterRequestDto);
 
-        // Força a role como USER para impedir escalação de privilégio
+        // Força a role como USER para impedir que façam cadastro de amdmin sem autorização
         userRegister.setRole(UserRoleEnum.ROLE_USER);
 
         // Criptografa a senha

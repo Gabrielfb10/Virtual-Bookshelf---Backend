@@ -1,0 +1,1 @@
+ALTER TABLE tb_book ALTER COLUMN description VARCHAR(1000);
