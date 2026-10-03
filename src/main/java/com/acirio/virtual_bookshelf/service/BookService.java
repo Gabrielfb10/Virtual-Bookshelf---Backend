@@ -30,6 +30,8 @@ public class BookService {
     private BookMapper bookMapper;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BookEnrichmentService bookEnrichmentService;
 
     public BookResponseDto registerBook(BookRequestDto bookRequestDto, MultipartFile cover) {
         if(bookRepository.existsByName(bookRequestDto.getName())) {
@@ -46,11 +48,21 @@ public class BookService {
         }catch (IOException e){
             throw new RuntimeException("Erro ao salvar a imagem de capa.",e);
         }
-
         BookModel book = bookMapper.toEntity(bookRequestDto);
         book.setCover("/covers/" + coverFileName);
 
+        // Salva primeiro para garantir que o livro tenha um ID
         BookModel bookSaved = bookRepository.save(book);
+
+        // Se o livro estiver sem descrição, irá acionar a geração por IA de maneira Assíncrona
+        if (bookSaved.getDescription() == null || bookSaved.getDescription().trim().isEmpty()) {
+            bookEnrichmentService.aplicateDescriptionAsyn(
+                    bookSaved.getId(),
+                    bookSaved.getName(),
+                    bookSaved.getAuthor(),
+                    bookSaved.getGenre()
+            );
+        }
 
         return bookMapper.toResponse(bookSaved);
     }

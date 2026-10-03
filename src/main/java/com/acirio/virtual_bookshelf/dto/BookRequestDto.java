@@ -29,7 +29,6 @@ public class BookRequestDto {
     @Schema(description = "Gênero do livro", example = "Fantasia")
     private String genre;
 
-    @NotBlank
     @Schema(description = "Sinopse ou descrição do livro", example = "Uma aventura épica...")
     private String description;
 
