@@ -26,7 +26,7 @@ O **VirtualBookshelf** é um sistema para gerenciamento de leitura e acompanhame
 
 ## ⚙️ Tecnologias Utilizadas
 
-A API backend foi construída utilizando ferramentas modernas e robustas do ecossistema Java. Além disso, um frontend básico em React foi gerado com o auxílio de IA exclusivamente para ilustrar o consumo da API e demonstrar um exemplo de aplicação da interface.
+A API backend foi construída utilizando ferramentas modernas e robustas do ecossistema Java. O projeto conta também com uma interface de usuário completa.
 
 **Backend:**
 - **Java 21**
@@ -36,9 +36,14 @@ A API backend foi construída utilizando ferramentas modernas e robustas do ecos
 - **Flyway** (Migrations)
 - **MapStruct** e **Lombok**
 - **SpringDoc OpenAPI** (Swagger)
+- **LangChain4j & Ollama** (Integração com LLM local para complementar a criação de texto para a sinopse dos livros)
 
-**Frontend (Ilustrativo):**
+**Frontend:**
 - **React** (com Vite)
+- 🔗 [Repositório do Frontend](https://github.com/Gabrielfb10/Virtual-Bookshelf---Frontend)
+
+**Infraestrutura:**
+- **Docker & Docker Compose** (Containerização da aplicação e orquestração do banco de dados)
 
 ---
 
@@ -46,7 +51,8 @@ A API backend foi construída utilizando ferramentas modernas e robustas do ecos
 
 ### Pré-requisitos
 Antes de iniciar, certifique-se de ter os seguintes itens instalados na sua máquina:
-- **Java Development Kit (JDK) 21** ou superior
+- **Docker** e **Docker Compose** (Recomendado)
+- **Java Development Kit (JDK) 21** ou superior (Para execução manual sem Docker)
 - **Maven** (caso não queira usar o wrapper embutido)
 - **Node.js** (opcional, apenas para rodar o script de geração de massa de dados)
 
@@ -54,19 +60,28 @@ Antes de iniciar, certifique-se de ter os seguintes itens instalados na sua máq
 
 1. **Clone o repositório:**
 ```bash
-git clone https://github.com/seu-usuario/virtual-bookshelf.git
-cd virtual-bookshelf
+git clone https://github.com/Gabrielfb10/Virtual-Bookshelf---Backend.git
+cd Virtual-Bookshelf---Backend
 ```
 
 2. **Configure as Variáveis de Ambiente:**
 Faça uma cópia do arquivo de exemplo `.env.example` e renomeie-o para `.env`. Configure os valores (especialmente o `JWT_SECRET`) conforme detalhado na próxima seção.
 
-3. **Inicie o Servidor Backend (Modo Dev com H2):**
+3. **Inicie a Aplicação (Recomendado via Docker):**
+Com o Docker configurado, você pode iniciar o banco de dados PostgreSQL e a API simultaneamente com um único comando:
+```bash
+docker-compose up -d --build
+```
+A API estará disponível em: `http://localhost:8081`.
+
+*(Alternativa)* **Inicie o Servidor Localmente (Modo Dev):**
+Se preferir rodar diretamente na sua máquina sem Docker (utilizará o banco H2 em memória por padrão):
 ```bash
 ./mvnw spring-boot:run
 ```
-A API estará disponível em: `http://localhost:8080`.
-O Swagger da API poderá ser acessado em: `http://localhost:8080/swagger-ui.html`.
+Neste modo, a API estará em: `http://localhost:8080`.
+
+O **Swagger** da API poderá ser acessado adicionando `/swagger-ui/index.html` à URL base do servidor que estiver utilizando.
 
 *(Opcional)* **Script de População de Dados:**
 Se desejar testar a aplicação com livros e usuários fictícios pré-cadastrados, com o servidor rodando, execute o script Node.js na raiz do projeto:

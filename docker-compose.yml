@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: virtual_bookshelf_db
+    environment:
+      POSTGRES_DB: bookshelf_db
+      POSTGRES_USER: book
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  app:
+    build: .
+    container_name: virtual_bookshelf_app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_URL=jdbc:postgresql://db:5432/bookshelf_db
+      - DB_USER=book
+      - DB_PASSWORD=123
+      - JWT_SECRET=siki48u54390fd8yfdg7fdgdf48054h3
+      - JWT_EXPIRATION=86400000
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  postgres_data:
